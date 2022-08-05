@@ -1,2 +1,1 @@
-# springMVC
-spring mvc tutorials 
+Spring tutorials 
