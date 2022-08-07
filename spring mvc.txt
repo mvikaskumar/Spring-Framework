@@ -14,3 +14,104 @@ All the incoming requests are intercepted by the DispatcherServlet that works as
 The DispatcherServlet then gets an entry of handler mapping from the XML file and forwards the request to the controller.
 The object of ModelAndView is returned by the controller.
 The DispatcherServlet checks the entry of the view resolver in the XML file and invokes the appropriate view component.
+*
+
+
+Working of Spring MVC project:--
+
+Step 1-> Firstly create a Dispatcher Servlet that will receive all the request comming from client side.
+(configure dispatcher servlet In Web.xml File kept in WEB-INF folder)
+
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<display-name>Archetype Created Web Application</display-name>
+
+	<!-- Configuring front end controller of dispatcher servlet -->
+
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+</web-app>
+
+<!-- servlet configuration should be written in the body of <web-app> other wise it will generate error. -->
+
+
+
+Step 2->Create internal resorce view resolver this will help to view pages.
+(Create a {...-servlet.xml} file in WEb_INF folder).  #Remember always ..-servlet.xml name should be servlet-name of Dispatcher servlet.
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+        <context:component-scan base-package="springMvc.Controller"></context:component-scan>   //here package should be controller package that ll help controller to understand
+                                                                                                       that ll be view resolver page.
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		name="viewResolver">
+
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+
+</beans>
+
+
+Step ->3 Create a controller in src/main folder.
+
+
+package springMvc.Controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller                          //this annotation is use to make this class a controller.
+public class HomeController {
+	@RequestMapping("/index")      //
+	public String index() {
+		System.out.println("this is index page.");
+		return "index";
+	}
+
+}
+
+
+Step ->4 Create a page for view(in WEB-INF folder).
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>This is index page.</title>
+</head>
+<body>
+
+<h1>This page is called from controller page.</h1>
+
+</body>
+</html>
+
+
+
+
