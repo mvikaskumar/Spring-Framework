@@ -115,3 +115,131 @@ Step ->4 Create a page for view(in WEB-INF folder).
 
 
 
+
+
+
+*** Sending data from contoller to view--
+
+*1st way is using Model Attribute
+
+#Sending data
+@RequestMapping("/about")
+	public String about(Model model) {
+		System.out.println("this is about page.");
+		
+		model.addAttribute("name","Vikas Vaibhav");     //Way of sending data from controller to view using model.
+		
+		return "about";
+	}
+
+
+
+#Getting data
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>This is about page</title>
+</head>
+<body>
+<h1>This page is about page.</h1>
+<h2>Name is vikas kumar.</h2>
+
+<%
+	String name = (String)request.getAttribute("name");             //this is how get data from controller.
+
+%>
+<h1> Name is  <%= name %></h1>
+
+</body>
+</html>
+
+
+
+*2nd way is using ModelAndView Object
+
+#Sending Data
+
+@RequestMapping("/contact")
+	public ModelAndView  Contact() {
+		System.out.println("This is contact page.");
+	
+		ModelAndView modelandview = new ModelAndView();       //Way of sending data from controller to view using ModeAndView.
+		modelandview.addObject("name","Vaibhav");
+		return modelandview;
+	}
+
+#Getting Data
+
+<%@page import="org.springframework.web.bind.annotation.RequestAttribute"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<h1>This is contact page.</h1>
+<%String Name = (String)request.getAttribute("name"); %>   	//Way of getting data from controller of ModelAndView object.
+										//There is one more way of getting data using JSP Expression language.
+
+<h2>Name is <%= Name%> </h2> 
+
+
+</body>
+</html>
+
+
+
+
+** More about @RequstMapping()--
+
+package springMvc.RequstMappingContoller;
+
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+
+@Component
+@RequestMapping("/First")								//We can use @RequestMapping ar class level also.
+public class RequestMappingController {
+	@RequestMapping(path="/view", method=RequestMethod.GET)		//passing attributes in @RequestMapping.
+	public String view(Model model) {
+		System.out.println("This is RequestMapping controller page.");
+		model.addAttribute("source","Wikipidia");
+		return "view";
+	}
+	
+	
+
+}
+
+# View of RequstMappingContoller--(Note-Don't forget to metion <context:component-scan base-package="springMvc.RequstMappingContoller"></context:component-scan> in ViewResolver Page.
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>This  page is called from RequestMapping from Controller.</h1>
+<% String name=(String)request.getAttribute("source"); %>
+
+<h2>Source is <%=name %></h2>
+</body>
+</html>
+
+
+
+
