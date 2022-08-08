@@ -38,7 +38,7 @@ As soon as the destroy() method is activated, the Servlet container releases the
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Life cycle methods:
+** Life cycle methods:
 Life cycle methods are those methods which are used to control the life cycle of the servlet. These methods are called in specific order during the servlets’s entire life cycle.
 The class Servlet provides the methods to control and supervise the life cycle of servlet. There are three life cycle methods in the Servlet interface. There are as follows:
 
